@@ -39,4 +39,22 @@ public class InsertSelectFromTest {
 
         connection.close();
     }
+
+    @Test
+    public void test1() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
+
+        String sql = "insert into t_bak select * from t";
+        Statement statement = connection.createStatement();
+
+        // true if the first result is a ResultSet object; false if it is an update count or there are no results
+        boolean execute = statement.execute(sql);
+        if (!execute) {
+            int updateCount = statement.getUpdateCount();
+            System.out.println("updateCount = " + updateCount);
+        }
+
+        connection.close();
+    }
 }

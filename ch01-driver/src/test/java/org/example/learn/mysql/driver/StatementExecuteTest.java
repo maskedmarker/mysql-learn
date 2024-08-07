@@ -30,6 +30,8 @@ public class StatementExecuteTest {
 
         String sql = "SELECT 1 from dual";
         Statement statement = connection.createStatement();
+
+        // 查询类的sql,调用executeQuery方法;update类的sql调用
         ResultSet resultSet = statement.executeQuery(sql);
 
         while (resultSet.next()) {
@@ -48,16 +50,32 @@ public class StatementExecuteTest {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
-        String sql = "select * from t where id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, 1);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        String sql = "update t set name = 'aa' where id = 1";
+        Statement statement = connection.createStatement();
 
-        while (resultSet.next()) {
-            // 根据需要获取字段值，例如：
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            System.out.println(String.format("%d | %s", id, name));
+        // 查询类的sql,调用executeQuery方法;update类的sql调用
+        int rowCount = statement.executeUpdate(sql);
+        System.out.println("rowCount = " + rowCount);
+
+        connection.close();
+    }
+
+    @Test
+    public void test2() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
+
+        String sql = "insert t_bak select * from t";
+        Statement statement = connection.createStatement();
+
+        // 对于动态sql,因为不知道sql的类型是select/update,可以调用模糊的方法execute
+        // true if the first result is a ResultSet object; false if it is an update count or there are no results
+        boolean execute = statement.execute(sql);
+        if (!execute) {
+            int updateCount = statement.getUpdateCount();
+            System.out.println("updateCount = " + updateCount);
         }
+
+        connection.close();
     }
 }
