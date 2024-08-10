@@ -17,7 +17,8 @@ public class MysqlJdbcProtocolTest {
     @Before
     public void setup() {
         config = new JdbcConfig();
-        config.setUrl("jdbc:mysql://192.168.175.129:3306/test01");
+        // 默认情况下,tcp通讯会ssl加密,需要主动配置不加密通讯,才能抓到明文报文
+        config.setUrl("jdbc:mysql://192.168.175.129:3306/test01?useSSL=false&requireSSL=false");
         config.setUsername("root");
         config.setPassword("123456");
     }
