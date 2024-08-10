@@ -23,14 +23,14 @@ public class ConnectionTest {
 
     @Test
     public void test0() throws Exception {
+        // 驱动需要主动注册
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
         String sql = "SELECT 1 from dual";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         ResultSet resultSet = preparedStatement.executeQuery();
-
         while (resultSet.next()) {
             // 根据需要获取字段值，例如：
             String data = resultSet.getString("1");
@@ -38,7 +38,28 @@ public class ConnectionTest {
         }
 
         resultSet.close();
+        // 如果close preparedStatement,关联的resultSet都会被自动close
         preparedStatement.close();
+
+        // 如果是断开链接,关联的resultSet/preparedStatement都会被自动close
         connection.close();
+    }
+
+    @Test
+    public void test1() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // try-with-resource 语法,可以自动close connection
+        try (Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword())) {
+            String sql = "SELECT 1 from dual";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                // 根据需要获取字段值，例如：
+                String data = resultSet.getString("1");
+                System.out.println(data);
+            }
+        }
     }
 }

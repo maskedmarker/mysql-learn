@@ -6,8 +6,6 @@ import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class InsertSelectFromTest {
@@ -25,8 +23,8 @@ public class InsertSelectFromTest {
     @Test
     public void test0() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
         String sql = "insert t_bak select * from t";
         Statement statement = connection.createStatement();
 
@@ -43,8 +41,8 @@ public class InsertSelectFromTest {
     @Test
     public void test1() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
         String sql = "insert into t_bak select * from t";
         Statement statement = connection.createStatement();
 

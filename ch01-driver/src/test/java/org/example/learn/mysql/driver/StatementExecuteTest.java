@@ -4,10 +4,8 @@ import org.example.learn.mysql.driver.config.JdbcConfig;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.plaf.SliderUI;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -26,8 +24,8 @@ public class StatementExecuteTest {
     @Test
     public void test0() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
         String sql = "SELECT 1 from dual";
         Statement statement = connection.createStatement();
 
@@ -48,8 +46,8 @@ public class StatementExecuteTest {
     @Test
     public void test1() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
         String sql = "update t set name = 'aa' where id = 1";
         Statement statement = connection.createStatement();
 
@@ -63,8 +61,8 @@ public class StatementExecuteTest {
     @Test
     public void test2() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
+        Connection connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
         String sql = "insert t_bak select * from t";
         Statement statement = connection.createStatement();
 
